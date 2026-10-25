@@ -4,15 +4,45 @@ import { useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { websites } from '@/lib/websites';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function WebsiteGallery() {
+  const galleryRoot = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const reduced = useReducedMotion();
   const dragged = useRef(false);
   const website = websites[active];
   const move = (step: number) => setActive(index => (index + step + websites.length) % websites.length);
 
-  return <div className="website-gallery carousel-gallery exhibition-gallery" role="region" aria-roledescription="carousel" aria-label="Website gallery">
+  useGSAP(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const root = galleryRoot.current!;
+      const prints = gsap.utils.toArray<HTMLElement>('.exhibition-print', root);
+      const opening = gsap.timeline({paused:true, defaults:{ease:'power3.out'}});
+      prints.forEach((print,index) => {
+        const offset = ((index + websites.length + 2) % websites.length) - 2;
+        opening.fromTo(print,
+          {xPercent:-offset*85, y:Math.abs(offset)*12, rotation:offset*3, scale:.94},
+          {xPercent:0,y:0,rotation:0,scale:1,duration:.9,clearProps:'transform'},
+          offset === 0 ? 0 : .12);
+      });
+      opening.fromTo('.exhibition-details, .exhibition-controls, .gallery-thumbnails',
+        {opacity:0,y:12},{opacity:1,y:0,duration:.55,stagger:.08,clearProps:'opacity,transform'},.22);
+      const trigger = ScrollTrigger.create({trigger:root.querySelector('.exhibition-window'),start:'top 85%',once:true,onEnter:()=>opening.play()});
+      const finish = () => { opening.progress(1); trigger.kill(); };
+      root.addEventListener('pointerdown',finish);
+      root.addEventListener('focusin',finish);
+      return () => {root.removeEventListener('pointerdown',finish);root.removeEventListener('focusin',finish);};
+    });
+    return () => mm.revert();
+  }, {scope:galleryRoot});
+
+  return <div ref={galleryRoot} className="website-gallery carousel-gallery exhibition-gallery" role="region" aria-roledescription="carousel" aria-label="Website gallery">
     <div className="exhibition-layout">
       <div className="exhibition-details">
         <span className="exhibition-label">SELECTED WEBSITE</span>
@@ -40,7 +70,7 @@ export function WebsiteGallery() {
                 style={{zIndex:3-Math.abs(offset),pointerEvents:Math.abs(offset)>1 ? 'none' : 'auto'}}
                 onPointerDown={() => {dragged.current=false;}}
                 onClick={() => {if(!dragged.current)setActive(index);}}>
-                <img src={item.image} alt={`${item.name} website homepage`} width={1440} height={1000} draggable={false}/>
+                <span className="exhibition-print"><img src={item.image} alt={`${item.name} website homepage`} width={1440} height={1000} draggable={false}/></span>
               </motion.button>;
             })}
           </motion.div>

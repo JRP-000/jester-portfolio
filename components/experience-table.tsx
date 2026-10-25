@@ -1,5 +1,6 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
 import { ArrowUpRight, X } from 'lucide-react';
 
 type Experience = {
@@ -94,14 +95,34 @@ const experience: Experience[] = [
 export function ExperienceTable() {
   const dialog = useRef<HTMLDialogElement>(null);
   const [selected, setSelected] = useState(experience[0]);
-  const previousOverflow = useRef('');
+  const tween = useRef<gsap.core.Tween|null>(null);
+  const closing = useRef(false);
+  useEffect(() => () => {
+    tween.current?.kill();
+  }, []);
   function show(entry: Experience) {
     setSelected(entry);
-    previousOverflow.current = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    dialog.current?.showModal();
+    const panel = dialog.current!;
+    closing.current = false;
+    tween.current?.kill();
+    panel.showModal();
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tween.current = gsap.fromTo(panel,
+      {opacity:0,y:reduced ? 0 : 18,scale:reduced ? 1 : .97,'--dialog-shade':0},
+      {opacity:1,y:0,scale:1,'--dialog-shade':1,duration:reduced ? .1 : .3,ease:'power3.out'});
   }
-  function unlock() { document.body.style.overflow = previousOverflow.current; }
+  function hide() {
+    const panel = dialog.current;
+    if(!panel?.open || closing.current) return;
+    closing.current = true;
+    tween.current?.kill();
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tween.current = gsap.to(panel,{opacity:0,y:reduced ? 0 : 12,scale:reduced ? 1 : .98,'--dialog-shade':0,duration:reduced ? .1 : .2,ease:'power2.out',onComplete:()=>{
+      panel.close();
+      closing.current = false;
+      gsap.set(panel,{clearProps:'transform,opacity,--dialog-shade'});
+    }});
+  }
   return <section className="experience-section section" id="experience">
     <div className="experience-content">
       <div className="section-heading"><h2>Experience &amp; <em>education.</em></h2><p>Quality assurance, support, development,<br/>and the training behind the work.</p></div>
@@ -114,13 +135,13 @@ export function ExperienceTable() {
         </tr>)}</tbody>
       </table></div>
     </div>
-    <dialog ref={dialog} className="experience-dialog" aria-labelledby="experience-dialog-title" onClose={unlock} onClick={e => {
+    <dialog ref={dialog} className="experience-dialog" aria-labelledby="experience-dialog-title" onCancel={e => { e.preventDefault(); hide(); }} onClick={e => {
       if (e.target === dialog.current) {
         const r = dialog.current.getBoundingClientRect();
-        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.current.close();
+        if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) hide();
       }
     }} data-lenis-prevent>
-      <div className="dialog-top"><span>{selected.type}</span><button autoFocus aria-label="Close experience details" onClick={() => dialog.current?.close()}><X size={22}/></button></div>
+      <div className="dialog-top"><span>{selected.type}</span><button autoFocus aria-label="Close experience details" onClick={hide}><X size={22}/></button></div>
       <h3 id="experience-dialog-title">{selected.name}</h3>
       <p className="dialog-role">{selected.role}</p>
       {selected.client && <p className="dialog-client">Client: {selected.client}</p>}
