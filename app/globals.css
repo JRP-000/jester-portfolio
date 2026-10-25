@@ -170,3 +170,27 @@ h1,h2,.manifesto-text,.contact-heading{font-weight:500;letter-spacing:-.04em}
 /* A small index anchors the lower left; images crossfade without a blank pause. */
 .carousel-stage .carousel-ghost{top:auto;bottom:18px;left:0;font-size:72px;line-height:1;letter-spacing:-.07em;color:#3c5942}
 @media(max-width:640px){.carousel-stage{padding-bottom:66px}.carousel-stage .carousel-ghost{top:auto;bottom:8px;font-size:48px}}
+
+/* Exhibition: one centered work, with neighboring prints visible in depth. */
+.exhibition-gallery{max-width:1120px}
+.exhibition-layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:36px;align-items:center}
+.exhibition-label{font:9px var(--mono);letter-spacing:.14em;color:var(--sage)}
+.exhibition-details h3{font-size:clamp(30px,3vw,44px);line-height:1.05;letter-spacing:-.045em;font-weight:500;margin:24px 0 14px}
+.exhibition-details p{font-size:12px;min-height:42px;margin-bottom:22px}
+.exhibition-visit{display:inline-flex;align-items:center;gap:15px;min-height:44px;font-size:12px;border-bottom:1px solid #49664d}
+.exhibition-visit:hover{color:var(--green)}
+.exhibition-count{display:flex;gap:14px;align-items:baseline;margin-top:42px;color:var(--sage);font-size:11px}
+.exhibition-count>span:first-child{font-size:52px;letter-spacing:-.06em;color:var(--mint);font-weight:400}
+.exhibition-view{min-width:0;position:relative;padding:0 48px}
+.exhibition-window{overflow:hidden;position:relative}
+.exhibition-track{position:relative;height:380px;touch-action:pan-y;cursor:grab}
+.exhibition-track:active{cursor:grabbing}
+.exhibition-artwork{position:absolute;top:50%;left:50%;width:65%;padding:0;aspect-ratio:1.5;background:#132017;box-shadow:0 18px 30px #0005;cursor:inherit;border:1px solid #ffffff14;border-radius:3px}
+.exhibition-artwork img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;pointer-events:none;border-radius:2px;user-select:none}
+.exhibition-controls>button{position:absolute;top:calc(50% - 22px);width:44px;height:44px;border:1px solid #38513d;border-radius:50%;display:grid;place-items:center;background:var(--void);color:var(--mint)}
+.exhibition-controls>button:first-child{left:0}.exhibition-controls>button:last-child{right:0}
+.exhibition-controls>button:hover{color:var(--void);background:var(--green)}
+.exhibition-controls>span{display:block;text-align:center;font-size:10px;color:var(--sage);padding-bottom:18px}
+.exhibition-gallery .gallery-thumbnails{margin-top:25px;border-top:1px solid var(--line);padding-top:22px}
+@media(max-width:900px){.exhibition-layout{grid-template-columns:170px minmax(0,1fr);gap:16px}.exhibition-track{height:310px}.exhibition-view{padding:0 44px}}
+@media(max-width:640px){.exhibition-layout{display:flex;flex-direction:column;gap:0;align-items:stretch}.exhibition-details{position:relative;padding-right:70px}.exhibition-details h3{font-size:32px;margin:14px 0 8px}.exhibition-details p{min-height:0;margin-bottom:8px}.exhibition-count{position:absolute;right:0;bottom:0;margin:0;gap:7px}.exhibition-count>span:first-child{font-size:38px}.exhibition-track{height:240px}.exhibition-view{padding:0 34px;margin:12px -12px 0}.exhibition-controls>button:first-child{left:0}.exhibition-controls>button:last-child{right:0}.exhibition-controls>button{width:44px;height:44px;z-index:5}.exhibition-artwork{width:70%}.exhibition-gallery .gallery-thumbnails{margin-top:12px}}
