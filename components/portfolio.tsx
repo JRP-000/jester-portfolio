@@ -8,6 +8,7 @@ import {useGSAP} from '@gsap/react';
 import Lenis from 'lenis';
 import {AsciiHero} from './ascii-hero';
 import {WebsiteGallery} from './website-gallery';
+import {websites} from '@/lib/websites';
 import {ExperienceTable} from './experience-table';
 gsap.registerPlugin(ScrollTrigger,CustomEase,useGSAP);
 CustomEase.create('section-reveal','0.16, 1, 0.3, 1');
@@ -75,7 +76,7 @@ export default function Portfolio(){
     <div className="hero-bottom"><span>Thoughtful interfaces. Reliable systems.</span><a href="#intro">A little further down <ArrowDown size={14}/></a><button className="motion-control" onClick={()=>setPaused(!paused)} aria-label={paused?'Play ambient animations':'Pause ambient animations'}>{paused?<Play size={13}/>:<Pause size={13}/>}<span>{paused?'Motion paused':'Motion on'}</span></button></div>
    </section>
    <section className="manifesto section" id="intro"><div className="section-side">A builder’s mindset.<br/>An engineer’s eye.</div><div><p className="manifesto-text">{'Good work lives between how it feels and how it functions. I connect the two.'.split(' ').map((w,i)=><span className={`manifesto-word ${i>12?'serif':''}`} key={i}>{w} </span>)}</p><p className="supporting">From finding the bug to shaping the interface, I care about the details that make a digital experience feel effortless.</p></div></section>
-   <section id="work" className="work-section section art-showcase"><div className="section-heading"><h2>A few digital<br/><em>worlds.</em></h2><p>Different moods. Different stories.<br/>Six websites, made to be explored.</p></div>
+   <section id="work" className="work-section section art-showcase"><div className="section-heading"><h2>A few digital<br/><em>worlds.</em></h2><p>Different moods. Different stories.<br/>{websites.length} websites, made to be explored.</p></div>
     <WebsiteGallery/>
    </section>
    <ExperienceTable/>
