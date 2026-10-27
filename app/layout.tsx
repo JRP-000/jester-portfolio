@@ -4,7 +4,7 @@ import 'lenis/dist/lenis.css';
 import './globals.css';
 
 const siteUrl = 'https://jester-portfolio.vercel.app';
-const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-LL3DE84B4G';
 const validMeasurementId =
   measurementId && /^G-[A-Z0-9]+$/.test(measurementId) ? measurementId : null;
 const verificationCode = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
