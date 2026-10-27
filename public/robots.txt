@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jester-portfolio.vercel.app/sitemap.xml
