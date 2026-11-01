@@ -21,3 +21,5 @@ User-supplied websites: Kumo, Atelier Noma, Aurelle, Salt & Swell Coffee, Afterf
 
 ## CV evidence
 PEDROSA_CV.pdf confirms employment at IOL Inc. since October 2020, a Bachelor of Science in Computer Engineering from Lorma Colleges (August 2020), and role, client, and responsibility details for BaxterIP, CyberMeds, ZIGMAFY, Advanced Robust Cooperative System, and IRIS-BOT. The public experience table uses these facts. The CV also contains a phone number and home location, which are not shown on the public portfolio.
+
+VELLUM — Private Estates is included in the website showcase with a real homepage capture and the live URL https://vellum-private-estates.vercel.app/. It is a fictional luxury architectural portfolio built with React, GSAP and Lenis.

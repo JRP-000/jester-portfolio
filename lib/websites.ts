@@ -6,4 +6,5 @@ export const websites = [
  {name:'Afterflash',category:'Photography · Portfolio',url:'https://afterflash-ten.vercel.app/#work',image:'/work/afterflash.webp'},
  {name:'Hexshell',category:'Outerwear · Concept storefront',url:'https://hexshell.vercel.app/',image:'/work/hexshell.webp'},
  {name:'Maison Solenne',category:'Hospitality · Luxury hotel concept',url:'https://maison-solenne-gamma.vercel.app/',image:'/work/maison-solenne.jpg'},
+ {name:'VELLUM',category:'Luxury real estate · Architectural showcase',url:'https://vellum-private-estates.vercel.app/',image:'/work/vellum.jpg'},
 ];
