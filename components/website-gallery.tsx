@@ -32,7 +32,7 @@ export function WebsiteGallery() {
           offset === 0 ? 0 : .12);
       });
       opening.fromTo('.exhibition-details, .exhibition-controls, .gallery-thumbnails',
-        {opacity:0,y:12},{opacity:1,y:0,duration:.55,stagger:.08,clearProps:'opacity,transform'},.22);
+        {opacity:1,y:12},{opacity:1,y:0,duration:.55,stagger:.08,clearProps:'opacity,transform'},.22);
       const trigger = ScrollTrigger.create({trigger:root.querySelector('.exhibition-window'),start:'top 85%',once:true,onEnter:()=>opening.play()});
       const finish = () => { opening.progress(1); trigger.kill(); };
       root.addEventListener('pointerdown',finish);
@@ -42,13 +42,13 @@ export function WebsiteGallery() {
     return () => mm.revert();
   }, {scope:galleryRoot});
 
-  return <div ref={galleryRoot} className="website-gallery carousel-gallery exhibition-gallery" role="region" aria-roledescription="carousel" aria-label="Website gallery">
+  return <div ref={galleryRoot} className="website-gallery carousel-gallery exhibition-gallery" role="region" aria-roledescription="carousel" aria-label="Website gallery" onKeyDown={event => { if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') { event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1); } }}>
     <div className="exhibition-layout">
       <div className="exhibition-details">
-        <span className="exhibition-label">SELECTED WEBSITE</span>
+
         <div aria-live="polite" aria-atomic="true">
           <AnimatePresence initial={false} mode="wait">
-            <motion.div key={website.name} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: reduced ? 0 : .15}}>
+            <motion.div key={website.name} initial={false} animate={{opacity: 1}} exit={{opacity: 0}} transition={{duration: reduced ? 0 : .15}}>
               <h3>{website.name}</h3><p>{website.category}</p>
             </motion.div>
           </AnimatePresence>
@@ -64,13 +64,13 @@ export function WebsiteGallery() {
             {websites.map((item,index) => {
               const offset = ((index-active+websites.length+2)%websites.length)-2;
               const selected = offset === 0;
-              return <motion.button key={item.url} type="button" className="exhibition-artwork" aria-label={`Show ${item.name}`} aria-pressed={selected} tabIndex={Math.abs(offset)>1 ? -1 : 0}
+              return <motion.button key={item.url} type="button" className="exhibition-artwork" aria-label={`Show ${item.name}`} aria-pressed={selected} aria-hidden={Math.abs(offset)>1} tabIndex={Math.abs(offset)>1 ? -1 : 0}
                 initial={false} animate={{transform:`translate(-50%, -50%) translateX(${offset*77}%) scale(${selected ? 1 : .77}) rotate(${reduced ? 0 : offset*-5}deg)`,opacity:Math.abs(offset)>1 ? 0 : selected ? 1 : .48}}
                 transition={{duration:reduced ? 0 : .55,ease:[.23,1,.32,1]}}
                 style={{zIndex:3-Math.abs(offset),pointerEvents:Math.abs(offset)>1 ? 'none' : 'auto'}}
                 onPointerDown={() => {dragged.current=false;}}
                 onClick={() => {if(!dragged.current)setActive(index);}}>
-                <span className="exhibition-print"><img src={item.image} alt={`${item.name} website homepage`} width={1440} height={1000} draggable={false}/></span>
+                <span className="exhibition-print"><img src={item.image} alt={`${item.name} website homepage`} width={1440} height={1000} loading="lazy" decoding="async" draggable={false}/></span>
               </motion.button>;
             })}
           </motion.div>
@@ -84,7 +84,7 @@ export function WebsiteGallery() {
     </div>
     <div className="gallery-thumbnails" role="group" aria-label="Choose a website">
       {websites.map((item,index)=><button key={item.url} type="button" className="gallery-thumbnail" aria-pressed={active===index} aria-label={`Select ${item.name}`} onClick={()=>setActive(index)}>
-        <img src={item.image} alt="" width={288} height={180}/><span><span className="thumbnail-number">{String(index+1).padStart(2,'0')}</span>{item.name}</span>
+        <img src={item.image} alt="" width={288} height={180} loading="lazy" decoding="async"/><span><span className="thumbnail-number">{String(index+1).padStart(2,'0')}</span>{item.name}</span>
       </button>)}
     </div>
   </div>;

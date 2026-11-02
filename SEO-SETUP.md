@@ -1,27 +1,46 @@
-# Search tracking setup
+# Search visibility and measurement
 
-This portfolio supports Google Search Console verification and Google Analytics 4 (GA4). Both are off until you provide their actual values.
+## Implemented
+- Static, crawlable HTML for the homepage and three project stories.
+- Unique page titles, descriptions, and production canonical URLs.
+- A 1200 x 630 social sharing image with Open Graph and Twitter metadata.
+- Person and WebSite structured data on the homepage; breadcrumbs on project pages.
+- A generated sitemap at `/sitemap.xml` and a robots.txt sitemap reference.
+- Descriptive internal project links, semantic headings, and a useful 404 page.
+- Image dimensions and lazy loading on website previews.
 
-## 1. Search Console
+Run `npm run build` followed by `npm run verify:export` to validate the export.
+The check covers local links/assets, page metadata, structured-data syntax, sitemap
+entries, crawlable content, and the downloadable profile.
 
-1. At https://search.google.com/search-console/ add URL-prefix property `https://jester-portfolio.vercel.app/`.
-2. Choose HTML tag verification. Copy only the `content` attribute from Google's `google-site-verification` meta tag.
-3. In Vercel → Project → Settings → Environment Variables, add `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` with that content value for Production. Redeploy to bake it into this statically exported Next.js site.
-4. Back in Search Console, choose Verify.
-5. Submit `https://jester-portfolio.vercel.app/sitemap.xml` under Sitemaps. Indexing and performance metrics can take time to appear.
+## Google Search Console — owner setup
+1. Open https://search.google.com/search-console/ and add the URL-prefix property
+   `https://jester-portfolio.vercel.app/`.
+2. Choose HTML-tag verification and copy the tag's `content` value.
+3. Set `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` in the Vercel project's Production
+   environment, then rebuild/redeploy. Static exports bake the value into the HTML.
+4. Return to Search Console and verify ownership.
+5. Submit `https://jester-portfolio.vercel.app/sitemap.xml` and inspect the homepage.
+6. Review indexing and search performance after Google has processed the pages.
 
-## 2. GA4
+No ownership verification or sitemap submission is claimed by this repository.
+No search rankings, traffic gains, or indexing guarantees are claimed.
 
-1. At https://analytics.google.com/ create or select a GA4 property.
-2. Create a Web data stream with `https://jester-portfolio.vercel.app/`.
-3. Copy its *Measurement ID* (format `G-XXXXXXXXXX`), **not** its numeric stream ID.
-4. In Vercel → Project → Settings → Environment Variables, add `NEXT_PUBLIC_GA_MEASUREMENT_ID` for Production. Redeploy.
-5. Visit the live site with analytics consent where applicable, then check GA4 → Reports → Realtime for your visit. Your own visit may not appear if tracking is blocked.
+## Existing Google Analytics
+The existing GA4 integration is preserved. It uses the public measurement ID
+`G-LL3DE84B4G` unless `NEXT_PUBLIC_GA_MEASUREMENT_ID` overrides it. To disable the
+integration, set that variable to `disabled` and redeploy. Only valid `G-...` values
+load the analytics script. Check the matching property's Realtime report after
+release. Custom conversion tracking has not been added.
 
-## Notes
+## Maintaining content
+- Update `lib/site.ts` if the production domain changes; also update robots.txt.
+- Project pages and the sitemap use `lib/case-studies.ts`.
+- Keep claims specific to actual work. Never add invented traffic or ranking metrics.
+- Add a LinkedIn URL only after Jester supplies the correct profile.
+- The Figma section invites design handoffs; it does not claim a certification or
+  past Figma client work.
 
-- The Next.js app uses `output: 'export'`, so adding or modifying these environment variables requires a fresh build/deployment.
-- Google Search Console shows clicks from Google Search, not all website clicks.
-- GA4 tracks page views by default. Custom project, email and CTA click tracking should be configured and tested separately.
-- The verification value and Measurement ID are public page metadata, not secret credentials. Never enter a service-account secret or Google account password in these variables.
-- For cookie consent or privacy compliance, review the applicable jurisdiction and your site's data handling before enabling analytics for visitors.
+References:
+- https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+- https://nextjs.org/docs/app/getting-started/metadata-and-og-images

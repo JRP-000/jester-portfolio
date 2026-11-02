@@ -20,3 +20,13 @@ Six live screenshots form an exhibition gallery. The selected site sits between 
 The ASCII canvas spans the full desktop hero and centers its bloom behind the left-aligned name, with a dark left wash to preserve legibility. Its visual radius is substantially larger than the original split-column version. On phones, the canvas sits below the introduction at 390px height so the centered bloom remains visible without covering text or controls. Resize resets cached glyph states; reduced-motion behavior stays static.
 
 The hero artwork returned to the original split placement at the user's request: name and actions on the left, enlarged ASCII canvas on the right. The mobile canvas remains below the intro copy.
+
+## Freelance content refinement — November 2026
+Preserve the split ASCII hero, green/black palette, system sans typography, and
+interactive website gallery. Bring projects directly after the hero. Replace the
+animated tools marquee with static skill groups. Show services and project stories
+as open ruled rows. Use native inline disclosures for experience instead of dialogs;
+the first employment entry starts open. Supporting text uses brighter sage and
+larger sizes. Contact includes a local email-draft builder with a copy fallback.
+Case-study routes share the same typographic and color system. Ambient animation
+can be paused without hiding content. Introductory boot overlay is removed.

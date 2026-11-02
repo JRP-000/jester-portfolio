@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
+import { site, socialImage } from '@/lib/site';
 import 'lenis/dist/lenis.css';
 import './globals.css';
 
-const siteUrl = 'https://jester-portfolio.vercel.app';
+const siteUrl = site.url;
 const measurementId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-LL3DE84B4G';
 const validMeasurementId =
   measurementId && /^G-[A-Z0-9]+$/.test(measurementId) ? measurementId : null;
@@ -11,8 +12,8 @@ const verificationCode = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'Jester Pedrosa | Web Developer, QA Engineer & IT Support',
-  description: 'Explore web development projects and experience by Jester Pedrosa, a web developer, QA engineer, and IT support specialist building thoughtful digital experiences.',
+  title: site.title,
+  description: site.description,
   applicationName: 'Jester Pedrosa Portfolio',
   authors: [{ name: 'Jester Pedrosa' }],
   creator: 'Jester Pedrosa',
@@ -21,14 +22,16 @@ export const metadata: Metadata = {
     type: 'website',
     url: '/',
     siteName: 'Jester Pedrosa Portfolio',
-    title: 'Jester Pedrosa | Web Development & Digital Projects',
-    description: 'Selected websites, software projects, and professional experience by Jester Pedrosa.',
+    title: site.title,
+    description: site.description,
+    images: [socialImage],
     locale: 'en_PH',
   },
   twitter: {
-    card: 'summary',
-    title: 'Jester Pedrosa | Web Developer, QA Engineer & IT Support',
-    description: 'Explore selected websites, software projects, and professional experience.',
+    card: 'summary_large_image',
+    title: site.title,
+    description: site.description,
+    images: [socialImage.url],
   },
   verification: verificationCode ? { google: verificationCode } : undefined,
   robots: { index: true, follow: true },
